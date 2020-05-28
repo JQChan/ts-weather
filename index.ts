@@ -1,1 +1,1 @@
-console.log('hello ts-weather');
+console.log('hello ts-weather')
