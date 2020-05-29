@@ -1,7 +1,9 @@
+#! /usr/bin/env node
+
 import commander from 'commander';
 import colors from 'colors';
-import axios from 'axios';
-// import { IWeatherResponse } from './interfaces';
+import axios, { AxiosResponse } from 'axios';
+import { IWeatherResponse } from './interfaces';
 
 console.log('hello ts-weather');
 
@@ -42,8 +44,13 @@ axios.get(`${URL}?key=${encodeURI(key)}&city=${encodeURI(city)}&extensions=${enc
       if (forecast) {
         log(colors.yellow(forecast.reporttime));
         log(colors.white(`${forecast.province} ${forecast.city}`));
+        const weeks = ['一', '二', '三', '四', '五', '六', '日'];
         forecast.casts.forEach((cast) => {
-          log(colors.green(`${cast.dayweather} ${cast.daytemp}℃`));
+          log(colors.green(`
+          ${cast.date} 周${weeks[Number(cast.week) - 1]} 
+          日间天气${cast.dayweather} 气温${cast.daytemp}℃ ${cast.daywind} 风力${cast.daypower}级
+          晚间天气${cast.nightweather} 气温${cast.nighttemp}℃ ${cast.nightwind} 风力${cast.nightpower}级
+          `));
         });
       }
     } else {
